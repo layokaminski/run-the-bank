@@ -1,20 +1,21 @@
 package com.banco.santander.configs.security;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 
 
 @Configuration
@@ -22,11 +23,26 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @EnableWebMvc
 @AllArgsConstructor
 public class SecurityConfig {
+    private final AuthenticationJWTFilter authenticationJWTFilter;
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .build();
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll());
+                . csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests((authorize) -> {
+                    authorize.requestMatchers(PathRequest.toH2Console()).permitAll();
+                    authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/auth/login")).permitAll();
+                    authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/customer")).permitAll();
+                    authorize.anyRequest().authenticated();
+                });
+                http.addFilterBefore(authenticationJWTFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 

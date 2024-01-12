@@ -77,7 +77,7 @@ public class CustomerServiceImpl  implements CustomerService {
 
     private Customer findCustomerEntityById(final UUID id) throws EntityNotFoundException {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
     }
 
     @Override
