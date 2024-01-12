@@ -1,6 +1,5 @@
 package com.banco.santander.entities;
 
-import com.banco.santander.dtos.address.AddressDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,11 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +25,7 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "password", nullable = false)
@@ -36,6 +33,9 @@ public class Customer implements Serializable {
 
     @Column(name = "document", nullable = false, unique = true)
     private String document;
+
+    @Column(name = "address", nullable = false)
+    private String address;
 
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
@@ -47,17 +47,6 @@ public class Customer implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
-    @OneToMany(
-            mappedBy = "customer",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
-    private List<Address> addresses;
-
     @OneToMany(
             mappedBy = "customer",
             cascade = CascadeType.ALL,
@@ -65,15 +54,4 @@ public class Customer implements Serializable {
     )
     private List<Account> accounts;
 
-    public void setAddress(AddressDTO dto) {
-        addresses = new ArrayList<>();
-        var address = new Address();
-        BeanUtils.copyProperties(dto, address);
-        addAddress(address);
-    }
-
-    public void addAddress(Address address) {
-        addresses.add(address);
-        address.setCustomer(this);
-    }
 }
