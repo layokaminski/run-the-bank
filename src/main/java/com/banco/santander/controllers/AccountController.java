@@ -73,14 +73,4 @@ public class AccountController {
 
         return ResponseEntity.status(HttpStatus.OK).body("Account change status INACTIVE");
     }
-
-    @PatchMapping("/{id}/deposit")
-    public ResponseEntity<Object> updateDeposit(
-            @PathVariable(value = "id") final UUID id,
-            @RequestBody @Valid final AccountBalanceDTO accountBalanceDTO
-    ) throws EntityNotFoundException, IllegalStateException {
-        accountService.updateDeposit(id, accountBalanceDTO);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Deposit success");
-    }
 }

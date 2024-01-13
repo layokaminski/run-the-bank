@@ -1,13 +1,12 @@
 package com.banco.santander.services.impl;
 
-import com.banco.santander.dtos.account.AccountBalanceDTO;
 import com.banco.santander.dtos.account.AccountCreateDTO;
 import com.banco.santander.dtos.account.AccountDTO;
 import com.banco.santander.entities.Account;
 import com.banco.santander.enums.AccountStatus;
 import com.banco.santander.exceptions.customs.AccessDeniedException;
 import com.banco.santander.exceptions.customs.EntityNotFoundException;
-import com.banco.santander.exceptions.customs.IllegalStateException;
+import com.banco.santander.exceptions.customs.IllegalArgumentException;
 import com.banco.santander.mapper.AccountMapper;
 import com.banco.santander.repositories.AccountRepository;
 import com.banco.santander.services.AccountService;
@@ -66,17 +65,30 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
     }
 
+    @Transactional
     @Override
-    public void updateDeposit(UUID id, AccountBalanceDTO accountBalanceDTO) throws EntityNotFoundException, IllegalStateException {
-        final var account = findAccountEntityById(id);
-        final var accountDTO = accountMapper.accountToCustomerDTO(account);
+    public void updateDeposit(String agencyDestination, Double amount) throws EntityNotFoundException {
+        final var account = findAccountEntityByAgency(agencyDestination);
 
-        if (accountDTO.status().equals(AccountStatus.INACTIVE.toString())) {
-            throw new IllegalStateException("Account INACTIVE");
+        account.setBalance(account.getBalance() + amount);
+        accountRepository.save(account);
+    }
+
+    @Transactional
+    @Override
+    public void updateTransfer(String agencyOrigin, Double amount) throws EntityNotFoundException, IllegalArgumentException {
+        final var account = findAccountEntityByAgency(agencyOrigin);
+        if (amount > account.getBalance() || amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0 or greater balance");
         }
 
-        account.setBalance(account.getBalance() + accountBalanceDTO.balance());
+        account.setBalance(account.getBalance() - amount);
         accountRepository.save(account);
+    }
+
+    public Account findAccountEntityByAgency(final String agency) throws EntityNotFoundException {
+        return accountRepository.findByAgency(agency)
+                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
     }
 
     public Account findAccountEntityById(final UUID id) throws EntityNotFoundException {

@@ -25,11 +25,11 @@ public class Payment implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "account_id_origin")
-    private UUID accountIdOrigin;
+    @Column(name = "agency_origin")
+    private String agencyOrigin;
 
-    @Column(name = "account_id_destination")
-    private UUID accountIdDestination;
+    @Column(name = "agency_destination")
+    private String agencyDestination;
 
     @Column(name = "amount")
     private Double amount;

@@ -48,12 +48,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalStateErrors(final AccessDeniedException ex) {
+    public ResponseEntity<ErrorResponse> handleAccessDeniedErrors(final AccessDeniedException ex) {
         final var errorMessage = ex.getMessage();
         final var errorDTO = ErrorResponse.builder()
                 .message(errorMessage)
                 .build();
 
         return new ResponseEntity<>(errorDTO, new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentErrors(final IllegalArgumentException ex) {
+        final var errorMessage = ex.getMessage();
+        final var errorDTO = ErrorResponse.builder()
+                .message(errorMessage)
+                .build();
+
+        return new ResponseEntity<>(errorDTO, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 }

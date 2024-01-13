@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface AccountRepository extends JpaRepository<Account, UUID>, JpaSpecificationExecutor<Account> {
@@ -15,4 +16,6 @@ public interface AccountRepository extends JpaRepository<Account, UUID>, JpaSpec
     WHERE agency = :value
     """, nativeQuery = true)
     Boolean existsByFieldAndValue(final String value);
+
+    Optional<Account> findByAgency(String agency);
 }

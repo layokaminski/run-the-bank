@@ -40,13 +40,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers(PathRequest.toH2Console()).permitAll();
                     authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/payment")).authenticated();
+                    authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/payment/{id}/reverse")).authenticated();
+                    authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/payment/{id}/annulled")).authenticated();
                     authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/account/{id}/inactive")).authenticated();
                     authorize.anyRequest().permitAll();
                 });
-                http.addFilterBefore(authenticationJWTFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.addFilterBefore(authenticationJWTFilter, UsernamePasswordAuthenticationFilter.class);
         http.headers(headers -> headers
-                .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
-        );
+                .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         return http.build();
     }
 
