@@ -8,6 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -34,15 +36,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                . csrf(csrf -> csrf.disable())
+                . csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers(PathRequest.toH2Console()).permitAll();
-                    authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/auth/login")).permitAll();
-                    authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/customer")).permitAll();
-                    authorize.anyRequest().authenticated();
+                    authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/payment")).authenticated();
+                    authorize.requestMatchers(AntPathRequestMatcher.antMatcher("/account/{id}/inactive")).authenticated();
+                    authorize.anyRequest().permitAll();
                 });
                 http.addFilterBefore(authenticationJWTFilter, UsernamePasswordAuthenticationFilter.class);
-
+        http.headers(headers -> headers
+                .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+        );
         return http.build();
     }
 

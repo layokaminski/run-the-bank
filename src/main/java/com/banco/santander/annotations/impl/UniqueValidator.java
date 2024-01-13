@@ -16,7 +16,7 @@ public class UniqueValidator implements ConstraintValidator<Unique, String> {
 
     @Override
     public void initialize(Unique unique) {
-        Class<? extends FieldValueExists> clazz = unique.service();
+        Class<? extends FieldValueExists> clazz = (Class<? extends FieldValueExists>) unique.service();
         this.fieldName = unique.fieldName();
         this.service = this.applicationContext.getBean(clazz);
     }

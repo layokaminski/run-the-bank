@@ -1,7 +1,6 @@
 package com.banco.santander.annotations;
 
 import com.banco.santander.annotations.impl.UniqueValidator;
-import com.banco.santander.services.CustomerService;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -20,6 +19,6 @@ public @interface Unique {
     String message() default "Unique field already exists";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-    Class<CustomerService> service();
+    Class<?> service();
     String fieldName();
 }
