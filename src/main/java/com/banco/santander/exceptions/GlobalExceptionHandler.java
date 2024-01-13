@@ -1,6 +1,8 @@
 package com.banco.santander.exceptions;
 
+import com.banco.santander.exceptions.customs.AccessDeniedException;
 import com.banco.santander.exceptions.customs.EntityNotFoundException;
+import com.banco.santander.exceptions.customs.IllegalStateException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +35,25 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(errorDTO, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalStateErrors(final IllegalStateException ex) {
+        final var errorMessage = ex.getMessage();
+        final var errorDTO = ErrorResponse.builder()
+                .message(errorMessage)
+                .build();
+
+        return new ResponseEntity<>(errorDTO, new HttpHeaders(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalStateErrors(final AccessDeniedException ex) {
+        final var errorMessage = ex.getMessage();
+        final var errorDTO = ErrorResponse.builder()
+                .message(errorMessage)
+                .build();
+
+        return new ResponseEntity<>(errorDTO, new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 }
