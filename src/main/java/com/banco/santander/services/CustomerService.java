@@ -15,6 +15,7 @@ import java.util.UUID;
 public interface CustomerService extends FieldValueExists {
     CustomerDTO save(final CustomerCreateDTO customerCreateDTO);
     CustomerDTO findById(UUID id) throws EntityNotFoundException;
+    Customer findCustomerEntityById(UUID id) throws  EntityNotFoundException;
     Page<CustomerDTO> getPagedFiltered(final Specification<Customer> spec, final Pageable pageable);
     CustomerDTO update(UUID id, CustomerUpdateDTO customerUpdateDTO) throws EntityNotFoundException;
 

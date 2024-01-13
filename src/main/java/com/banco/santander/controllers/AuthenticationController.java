@@ -25,7 +25,7 @@ public class AuthenticationController {
     public ResponseEntity<JwtDTO> authenticateUser(@Valid @RequestBody LoginDTO loginDTO) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDTO.getDocument(), loginDTO.getPassword())
+                    new UsernamePasswordAuthenticationToken(loginDTO.document(), loginDTO.password())
             );
 
             String jwt = jwtProvider.generateJWT(authentication);

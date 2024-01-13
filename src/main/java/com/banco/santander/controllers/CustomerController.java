@@ -46,7 +46,7 @@ public class CustomerController {
             @PageableDefault(
                     page = 0,
                     size = 10,
-                    sort = "id",
+                    sort = "createdAt",
                     direction = Sort.Direction.DESC
             ) final Pageable pageable) {
 

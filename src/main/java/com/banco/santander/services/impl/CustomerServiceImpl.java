@@ -75,7 +75,7 @@ public class CustomerServiceImpl  implements CustomerService {
         customerRepository.delete(customer);
     }
 
-    private Customer findCustomerEntityById(final UUID id) throws EntityNotFoundException {
+    public Customer findCustomerEntityById(final UUID id) throws EntityNotFoundException {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
     }
