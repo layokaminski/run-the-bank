@@ -18,7 +18,6 @@ public interface CustomerService extends FieldValueExists {
     Customer findCustomerEntityById(UUID id) throws  EntityNotFoundException;
     Page<CustomerDTO> getPagedFiltered(final Specification<Customer> spec, final Pageable pageable);
     CustomerDTO update(UUID id, CustomerUpdateDTO customerUpdateDTO) throws EntityNotFoundException;
-
     CustomerDTO updatePatch(UUID id, CustomerPatchDTO customerUpdateDTO) throws EntityNotFoundException;
     void delete(UUID id) throws EntityNotFoundException;
 }

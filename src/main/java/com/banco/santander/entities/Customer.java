@@ -53,5 +53,4 @@ public class Customer implements Serializable {
             fetch = FetchType.LAZY
     )
     private List<Account> accounts;
-
 }
