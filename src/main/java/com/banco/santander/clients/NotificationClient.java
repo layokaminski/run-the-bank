@@ -2,21 +2,20 @@ package com.banco.santander.clients;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Log4j2
 @Component
-public class NotificationService {
+public class NotificationClient {
 
     private final RestTemplate restTemplate;
 
     @Value("${notificationServiceUrl}")
     private String notificationServiceUrl;
 
-    public NotificationService(RestTemplate restTemplate) {
+    public NotificationClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

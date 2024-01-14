@@ -1,6 +1,6 @@
 package com.banco.santander.unit.service;
 
-import com.banco.santander.clients.NotificationService;
+import com.banco.santander.clients.NotificationClient;
 import com.banco.santander.dtos.payment.PaymentCreateDTO;
 import com.banco.santander.entities.Payment;
 import com.banco.santander.enums.PaymentStatus;
@@ -39,12 +39,12 @@ public class PaymentServiceTest {
     @Mock
     private PaymentRepository paymentRepository;
     @Mock
-    private NotificationService notificationService;
+    private NotificationClient notificationClient;
 
 
     @BeforeEach
     void setup() {
-        this.sut = new PaymentServiceImpl(accountService, paymentRepository, notificationService);
+        this.sut = new PaymentServiceImpl(accountService, paymentRepository, notificationClient);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class PaymentServiceTest {
         assertEquals(paymentCreateDTO.agencyOrigin(), capturedPayment.getAgencyOrigin());
         assertEquals(paymentCreateDTO.agencyDestination(), capturedPayment.getAgencyDestination());
 
-        verify(notificationService).sendMessage();
+        verify(notificationClient).sendMessage();
     }
 
     @Test

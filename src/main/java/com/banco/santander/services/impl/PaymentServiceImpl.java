@@ -1,6 +1,6 @@
 package com.banco.santander.services.impl;
 
-import com.banco.santander.clients.NotificationService;
+import com.banco.santander.clients.NotificationClient;
 import com.banco.santander.dtos.payment.PaymentCreateDTO;
 import com.banco.santander.entities.Payment;
 import com.banco.santander.enums.PaymentStatus;
@@ -22,7 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final AccountService accountService;
     private final PaymentRepository paymentRepository;
-    private final NotificationService notificationService;
+    private final NotificationClient notificationClient;
 
     @Transactional
     @Override
@@ -36,7 +36,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setStatus(PaymentStatus.SUCCESS);
         paymentRepository.save(payment);
 
-        notificationService.sendMessage();
+        notificationClient.sendMessage();
     }
 
     @Transactional
