@@ -1,14 +1,13 @@
 package com.banco.santander.services.impl;
 
+import com.banco.santander.clients.NotificationService;
 import com.banco.santander.dtos.payment.PaymentCreateDTO;
-import com.banco.santander.entities.Account;
 import com.banco.santander.entities.Payment;
 import com.banco.santander.enums.PaymentStatus;
 import com.banco.santander.exceptions.customs.EntityNotFoundException;
 import com.banco.santander.exceptions.customs.IllegalArgumentException;
 import com.banco.santander.repositories.PaymentRepository;
 import com.banco.santander.services.AccountService;
-import com.banco.santander.services.CustomerService;
 import com.banco.santander.services.PaymentService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -23,6 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final AccountService accountService;
     private final PaymentRepository paymentRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     @Override
@@ -35,6 +35,8 @@ public class PaymentServiceImpl implements PaymentService {
         BeanUtils.copyProperties(paymentCreateDTO, payment);
         payment.setStatus(PaymentStatus.SUCCESS);
         paymentRepository.save(payment);
+
+        notificationService.sendMessage();
     }
 
     @Transactional
