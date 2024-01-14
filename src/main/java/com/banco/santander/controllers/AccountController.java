@@ -1,16 +1,11 @@
 package com.banco.santander.controllers;
 
 import com.banco.santander.configs.security.AuthenticationCurrentCustomerService;
-import com.banco.santander.dtos.account.AccountBalanceDTO;
 import com.banco.santander.dtos.account.AccountCreateDTO;
 import com.banco.santander.dtos.account.AccountDTO;
-import com.banco.santander.dtos.client.CustomerCreateDTO;
-import com.banco.santander.dtos.client.CustomerDTO;
-import com.banco.santander.dtos.client.CustomerPatchDTO;
 import com.banco.santander.entities.Account;
 import com.banco.santander.exceptions.customs.AccessDeniedException;
 import com.banco.santander.exceptions.customs.EntityNotFoundException;
-import com.banco.santander.exceptions.customs.IllegalStateException;
 import com.banco.santander.services.AccountService;
 import com.banco.santander.specifications.SpecificationTemplate;
 import jakarta.validation.Valid;

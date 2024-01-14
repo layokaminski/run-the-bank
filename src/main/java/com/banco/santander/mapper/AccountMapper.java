@@ -13,5 +13,5 @@ public interface AccountMapper {
     @Mapping(target = "createdAt", source = "createdAt", dateFormat = "yyyy-MM-dd HH:mm:ss.SSS")
     @Mapping(target = "updatedAt", source = "updatedAt", dateFormat = "yyyy-MM-dd HH:mm:ss.SSS")
     @Mapping(target = "customerId", source = "customer.id")
-    AccountDTO accountToCustomerDTO(Account account);
+    AccountDTO accountToAccountDTO(Account account);
 }

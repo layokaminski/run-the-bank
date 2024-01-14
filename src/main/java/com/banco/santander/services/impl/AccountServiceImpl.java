@@ -43,19 +43,19 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO findById(final UUID id) throws EntityNotFoundException {
-        return accountMapper.accountToCustomerDTO(findAccountEntityById(id));
+        return accountMapper.accountToAccountDTO(findAccountEntityById(id));
     }
 
     @Override
     public Page<AccountDTO> getPagedFiltered(final Specification<Account> spec, final Pageable pageable) {
-        return accountRepository.findAll(spec, pageable).map(accountMapper::accountToCustomerDTO);
+        return accountRepository.findAll(spec, pageable).map(accountMapper::accountToAccountDTO);
     }
 
     @Transactional
     @Override
     public void updatePatch(final UUID id, final UUID currentCustomerId) throws EntityNotFoundException, AccessDeniedException {
         final var account = findAccountEntityById(id);
-        final var accountDTO = accountMapper.accountToCustomerDTO(account);
+        final var accountDTO = accountMapper.accountToAccountDTO(account);
 
         if (!accountDTO.customerId().equals(currentCustomerId)) {
             throw new AccessDeniedException("Access denied");
