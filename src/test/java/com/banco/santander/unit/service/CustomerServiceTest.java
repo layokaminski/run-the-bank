@@ -8,7 +8,7 @@ import com.banco.santander.entities.Customer;
 import com.banco.santander.exceptions.customs.EntityNotFoundException;
 import com.banco.santander.mapper.CustomerMapper;
 import com.banco.santander.repositories.CustomerRepository;
-import com.banco.santander.resolver.*;
+import com.banco.santander.resolver.customer.*;
 import com.banco.santander.services.CustomerService;
 import com.banco.santander.services.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,5 @@
-package com.banco.santander.resolver;
+package com.banco.santander.resolver.customer;
 
-import com.banco.santander.dtos.client.CustomerCreateDTO;
 import com.banco.santander.entities.Customer;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;

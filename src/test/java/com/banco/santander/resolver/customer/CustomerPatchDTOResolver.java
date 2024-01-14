@@ -1,22 +1,20 @@
-package com.banco.santander.resolver;
+package com.banco.santander.resolver.customer;
 
-import com.banco.santander.dtos.client.CustomerCreateDTO;
+import com.banco.santander.dtos.client.CustomerPatchDTO;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-import java.time.LocalDateTime;
-
-public class CustomerCreateDTOResolver implements ParameterResolver {
+public class CustomerPatchDTOResolver implements ParameterResolver {
 
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return parameterContext.getParameter().getType() == CustomerCreateDTO.class;
+        return parameterContext.getParameter().getType() == CustomerPatchDTO.class;
     }
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return new CustomerCreateDTO("Layo", "StrongPassword951!#@", "12345678910", "Cidade de Pallet");
+        return new CustomerPatchDTO("Layo", "12345678910", "Cidade de Veridian");
     }
 }
